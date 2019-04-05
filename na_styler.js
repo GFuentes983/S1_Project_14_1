@@ -21,7 +21,7 @@
 
 */
 // Event Listener that runs the setStyles function when the page loads
-window.addEventListener('load', setStyles);
+window.onload = setStyles;
 
 // SetStyles function 
 function setStyles() {
@@ -35,6 +35,7 @@ function setStyles() {
    link.setAttribute('rel', "stylesheet");
    link.setAttribute('id', "fancySheet");
    link.setAttribute('href', "na_style_" + styleNum + ".css");
+   document.head.appendChild(link);
 
    // Element node figBox that will have attributes and be appended to a div with the id box
    // Element node parent of figBox called divBox
@@ -43,14 +44,49 @@ function setStyles() {
    figBox.setAttribute("id", "styleThumbs");
    divBox.appendChild(figBox);
 
-   for (var i = 0; i < 4; i++) {
+   // For loop for preview images for the fancy style sheets
+   for (var i = 0; i <= 4; i++) {
       var sheetImg = document.createElement("img");
-      sheetImg.setAttribute('src', 'na_small_' + [i] + '.png');
-      sheetImg.addEventListener("click", function() {
-         link.setAttribute('href', e.target.alt);
-         figBox.appendChild(sheetImg);
+      sheetImg.setAttribute('src', 'na_small_' + i + '.png');
+      sheetImg.setAttribute('alt', 'na_style_' + i + '.css');
+      sheetImg.addEventListener("click", function(e) {
+         document.getElementById('fancySheet').setAttribute("href", e.target.alt);
+         console.log(fancySheet);
+         
       });
+
+      figBox.appendChild(sheetImg);
    }
+
+   // Element node that will be an embedded style sheet
+   var fancySheet = document.createElement("style");
+   document.head.appendChild(fancySheet);
+   fancySheet.setAttribute('id', "fancySheet");
+
+
+   // embedded stlye sheet that will be appended to the document head.
+   var thumbStyles = document.createElement("style"); 
+   document.head.appendChild(thumbStyles);
+// Setting the position of the styleThumbs element.
+   document.styleSheets[document.styleSheets.length-1].insertRule(" \
+   figure#styleThumbs { \
+      position: absolute; \
+      left: 0px; \
+      bottom: 0px; \
+   }", 0);
+// Changing the appearance of the styleThumbs image.
+   document.styleSheets[document.styleSheets.length-1].insertRule(" \
+   figure#styleThumbs img { \
+      outline: 1px solid black; \
+      cursor: pointer; \
+      opacity: 0.75; \
+   }", 1);
+// Create an outline when the styleThumbs image is hovered over.
+   document.styleSheets[document.styleSheets.length-1].insertRule(" \
+   figure#styleThumbs img:hover { \
+      outline: 1px solid red; \
+      opacity: 1.0; \
+   }", 2);
 }
 
 
